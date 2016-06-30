@@ -7,6 +7,7 @@ import com.jfinal.config.Interceptors;
 import com.jfinal.config.JFinalConfig;
 import com.jfinal.config.Plugins;
 import com.jfinal.config.Routes;
+import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.c3p0.C3p0Plugin;
 import com.jfinal.plugin.redis.RedisPlugin;
 import com.jfinal.render.ViewType;
@@ -18,7 +19,7 @@ public class WaterFilter extends JFinalConfig {
   */
  @Override
  public void configConstant(Constants me) {
-  loadPropertyFile("Config.properties");
+  loadPropertyFile("config.properties");
   // TODO Auto-generated method stub
   me.setDevMode(true); // 设置是否是开发模式
   me.setViewType(ViewType.VELOCITY); // 设置试图
@@ -52,6 +53,7 @@ public class WaterFilter extends JFinalConfig {
   C3p0Plugin c3p0Plugin = new C3p0Plugin(this.getProperty("jdbcurl"), this.getProperty("user"), this.getProperty("password"),
    this.getProperty("driver"));
   me.add(c3p0Plugin);
+  ActiveRecordPlugin activeRecordPlugin = new ActiveRecordPlugin(c3p0Plugin);
  }
 
  /**
@@ -61,6 +63,10 @@ public class WaterFilter extends JFinalConfig {
  public void configRoute(Routes arg0) {
   // TODO Auto-generated method stub
 
+
+ }
+
+ public static void main(String[] args) {
 
  }
 
