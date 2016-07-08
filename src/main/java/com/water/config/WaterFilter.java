@@ -62,6 +62,8 @@ public class WaterFilter extends JFinalConfig {
  @Override
  public void configRoute(Routes arg0) {
   // TODO Auto-generated method stub
+  // 采用扫描方式注入
+
 
 
  }
