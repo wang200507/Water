@@ -2,10 +2,12 @@ package com.water.Api.plugin;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
+import org.apache.http.ParseException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -15,24 +17,43 @@ import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 
+import com.water.Api.Tools.Tools;
 import com.water.Api.entity.ApiBean;
 
 public class VerificationCodeApiPlugin {
 
  private static Logger log = Logger.getLogger(VerificationCodeApiPlugin.class);
  private HttpEntity entity;
+
  /**
   * 通过GET方式发起http请求
+  * 
+  * @throws IOException
+  * @throws ParseException
   */
  @Test
- public HttpEntity requestByGetMethod(ApiBean apiBean) {
+ public String requestByGetMethod(ApiBean apiBean) throws ParseException, IOException {
   // 创建默认的httpClient实例
   CloseableHttpClient httpClient = new MultiplatformPlugin()
    .start();
   try {
    // 用get方法发送http请求
    HttpGet get = new HttpGet(apiBean.getGetUrl());
-   if (apiBean.getProxyBoolen()) {
+   get.setHeader("Accept", "Accept text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+   get.setHeader("Accept-Charset", "GB2312,utf-8;q=0.7,*;q=0.7");
+   get.setHeader("Date", new Date().toString());
+   get.setHeader("Accept-Encoding", "gzip, deflate");
+   get.setHeader("Accept-Language", "zh-cn,zh;q=0.5");
+   get.setHeader("Connection", "keep-alive");
+   get.setHeader("Cookie", " JSESSIONID=56F74B46B701AFC8A14AB5061FB9F465; Path=/");
+   if (apiBean.isAgentBoolean()) {
+    get.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 6.1; rv:6.0.2) Gecko/20100101 Firefox/6.0.2");
+   } else {
+    get.setHeader("User-Agent",
+     "Mozilla/5.0 (Linux; U; Android 2.2; en-us; Nexus One Build/FRF91) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1");
+   }
+
+   if (apiBean.isProxyBoolean()) {
     log.info(("设置代理成功:" + apiBean.getRequestConfig().getLocalAddress() + ":" + apiBean.getRequestConfig().getProxy()));
     get.setConfig(apiBean.getRequestConfig());
    }
@@ -46,7 +67,8 @@ public class VerificationCodeApiPlugin {
     if (null != entity) {
      log.info(("响应状态码:" + httpResponse.getStatusLine()));
      log.info("-------------------------------------------------");
-     log.info("响应内容:" + EntityUtils.toString(entity));
+
+     log.info("响应内容:" + Tools.ReturnMessage(EntityUtils.toString(entity)));
      log.info("-------------------------------------------------");
     }
    } finally {
@@ -61,18 +83,34 @@ public class VerificationCodeApiPlugin {
     e.printStackTrace();
    }
   }
-  return entity;
+  return Tools.ReturnMessage(EntityUtils.toString(entity));
  }
 
  /**
   * POST方式发起http请求
+  * 
+  * @throws IOException
+  * @throws ParseException
   */
  @Test
- public HttpEntity requestByPostMethod(ApiBean apiBean) {
+ public String requestByPostMethod(ApiBean apiBean) throws ParseException, IOException {
   CloseableHttpClient httpClient = new MultiplatformPlugin().start();
   try {
    HttpPost post = new HttpPost(apiBean.getGetUrl()); // 这里用上本机的某个工程做测试
-   if (apiBean.getProxyBoolen()) {
+   post.setHeader("Accept", "Accept text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+   post.setHeader("Accept-Charset", "GB2312,utf-8;q=0.7,*;q=0.7");
+   post.setHeader("Date", new Date().toString());
+   post.setHeader("Accept-Encoding", "gzip, deflate");
+   post.setHeader("Accept-Language", "zh-cn,zh;q=0.5");
+   post.setHeader("Connection", "keep-alive");
+   post.setHeader("Cookie", " JSESSIONID=56F74B46B701AFC8A14AB5061FB9F465; Path=/");
+   if (apiBean.isAgentBoolean()) {
+    post.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 6.1; rv:6.0.2) Gecko/20100101 Firefox/6.0.2");
+   } else {
+    post.setHeader("User-Agent",
+     "Mozilla/5.0 (Linux; U; Android 2.2; en-us; Nexus One Build/FRF91) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1");
+   }
+   if (apiBean.isProxyBoolean()) {
     post.setConfig(apiBean.getRequestConfig());
    }
    // 创建参数列表
@@ -87,7 +125,7 @@ public class VerificationCodeApiPlugin {
     entity = httpResponse.getEntity();
     if (null != entity) {
      log.info("-------------------------------------------------------");
-     log.info(EntityUtils.toString(uefEntity));
+     log.info(Tools.ReturnMessage(EntityUtils.toString(uefEntity)));
      log.info("-------------------------------------------------------");
     }
    } finally {
@@ -105,7 +143,7 @@ public class VerificationCodeApiPlugin {
     e.printStackTrace();
    }
   }
-  return entity;
+  return Tools.ReturnMessage(EntityUtils.toString(entity));
  }
 
 
