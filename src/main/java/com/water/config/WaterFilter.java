@@ -54,6 +54,7 @@ public class WaterFilter extends JFinalConfig {
    this.getProperty("driver"));
   me.add(c3p0Plugin);
   ActiveRecordPlugin activeRecordPlugin = new ActiveRecordPlugin(c3p0Plugin);
+
  }
 
  /**
