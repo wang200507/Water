@@ -1,4 +1,4 @@
-package com.water.plugin;
+package com.water.Api.plugin;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -15,7 +15,7 @@ import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 
-import com.water.entity.ApiBean;
+import com.water.Api.entity.ApiBean;
 
 public class VerificationCodeApiPlugin {
 

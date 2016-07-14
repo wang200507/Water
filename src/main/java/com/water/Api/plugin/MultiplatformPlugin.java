@@ -1,4 +1,4 @@
-package com.water.plugin;
+package com.water.Api.plugin;
 
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;

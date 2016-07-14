@@ -1,4 +1,4 @@
-package com.water.entity;
+package com.water.Api.entity;
 
 import java.io.Serializable;
 
