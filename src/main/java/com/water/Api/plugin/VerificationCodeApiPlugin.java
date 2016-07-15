@@ -24,7 +24,7 @@ public class VerificationCodeApiPlugin {
 
  private static Logger log = Logger.getLogger(VerificationCodeApiPlugin.class);
  private HttpEntity entity;
- private String mess="";
+ private String mess = "";
 
  /**
   * 通过GET方式发起http请求
@@ -62,7 +62,6 @@ public class VerificationCodeApiPlugin {
    CloseableHttpResponse httpResponse = null;
    // 发送get请求
    httpResponse = httpClient.execute(get);
-   try {
     // response实体
     entity = httpResponse.getEntity();
     if (null != entity) {
@@ -72,9 +71,6 @@ public class VerificationCodeApiPlugin {
      log.info("-------------------------------------------------");
      mess = Tools.ReturnMessage(EntityUtils.toString(entity));
     }
-   } finally {
-    httpResponse.close();
-   }
   } catch (Exception e) {
    e.printStackTrace();
   } finally {
