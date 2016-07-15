@@ -24,6 +24,7 @@ public class VerificationCodeApiPlugin {
 
  private static Logger log = Logger.getLogger(VerificationCodeApiPlugin.class);
  private HttpEntity entity;
+ private String mess="";
 
  /**
   * 通过GET方式发起http请求
@@ -32,7 +33,7 @@ public class VerificationCodeApiPlugin {
   * @throws ParseException
   */
  @Test
- public String requestByGetMethod(ApiBean apiBean) throws ParseException, IOException {
+ public String requestByGetMethod(ApiBean apiBean) throws ParseException{
   // 创建默认的httpClient实例
   CloseableHttpClient httpClient = new MultiplatformPlugin()
    .start();
@@ -67,9 +68,9 @@ public class VerificationCodeApiPlugin {
     if (null != entity) {
      log.info(("响应状态码:" + httpResponse.getStatusLine()));
      log.info("-------------------------------------------------");
-
      log.info("响应内容:" + Tools.ReturnMessage(EntityUtils.toString(entity)));
      log.info("-------------------------------------------------");
+     mess = Tools.ReturnMessage(EntityUtils.toString(entity));
     }
    } finally {
     httpResponse.close();
@@ -83,7 +84,7 @@ public class VerificationCodeApiPlugin {
     e.printStackTrace();
    }
   }
-  return Tools.ReturnMessage(EntityUtils.toString(entity));
+  return mess;
  }
 
  /**
@@ -93,7 +94,7 @@ public class VerificationCodeApiPlugin {
   * @throws ParseException
   */
  @Test
- public String requestByPostMethod(ApiBean apiBean) throws ParseException, IOException {
+ public String requestByPostMethod(ApiBean apiBean) throws ParseException {
   CloseableHttpClient httpClient = new MultiplatformPlugin().start();
   try {
    HttpPost post = new HttpPost(apiBean.getGetUrl()); // 这里用上本机的某个工程做测试
@@ -127,6 +128,7 @@ public class VerificationCodeApiPlugin {
      log.info("-------------------------------------------------------");
      log.info(Tools.ReturnMessage(EntityUtils.toString(uefEntity)));
      log.info("-------------------------------------------------------");
+     mess = Tools.ReturnMessage(EntityUtils.toString(entity));
     }
    } finally {
     httpResponse.close();
@@ -143,7 +145,7 @@ public class VerificationCodeApiPlugin {
     e.printStackTrace();
    }
   }
-  return Tools.ReturnMessage(EntityUtils.toString(entity));
+  return mess;
  }
 
 

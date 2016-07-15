@@ -1,19 +1,18 @@
 package com.water.Api.service;
 
-import com.water.Api.entity.ApiBean;
 
-public interface YzmService {
- public <T> T YzmLogin(ApiBean apiBean);
+public interface YzmService<T> {
+ public T YzmLogin(T t);
 
- public <T> T YzmGetMobilenum(ApiBean apiBean);
+ public T YzmGetMobilenum(T t);
 
- public <T> T YzmGetVcodeAndReleaseMobile(ApiBean apiBean);
+ public T YzmGetVcodeAndReleaseMobile(T t);
 
- public <T> T YzmGetVcodeAndHoldMobilenum(ApiBean apiBean);
+ public T YzmGetVcodeAndHoldMobilenum(T t);
 
- public <T> T YzmAddIgnoreList(ApiBean apiBean);
+ public T YzmAddIgnoreList(T t);
 
- public <T> T YzmGetUserInfos(ApiBean apiBean);
+ public T YzmGetUserInfos(T t);
 
- public <T> T YzmGetRecvingInfo(ApiBean apiBean);
+ public T YzmGetRecvingInfo(T t);
 }
