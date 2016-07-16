@@ -1,6 +1,5 @@
 package com.test;
 
-import java.io.IOException;
 
 import org.apache.http.ParseException;
 import org.junit.Test;
@@ -13,7 +12,7 @@ import com.water.Api.service.Impl.DzapiYzmServiceImpl;
 
 public class TestApi {
  @Test
- public void Api() throws ParseException, IOException {
+ public void Api() throws ParseException{
 
   YzmService<YzmBean> service = new DzapiYzmServiceImpl();
   YzmBean t = new YzmBean();
@@ -27,10 +26,11 @@ public class TestApi {
   codeApiPlugin.requestByGetMethod(
    new ApiBean("http://mp.soqi.cn/login/saveRegister.xhtml?mobile=" + t.getMobiles()[0] + "&&recId=BA38717EF51C84317CB0BCD31B48A3E7",
     "58.219.161.8", "8888", false, true));
-  while (t.getCode().equals("")) {
+  while (true) {
    service.YzmGetVcodeAndHoldMobilenum(t);
-   if (!t.getCode().equals("")) {
+   if (!"".equals(t.getCodes()[0])&&t.getCodes()[0]!=null) {
     System.out.println(t.getCode());
+    service.YzmAddIgnoreList(t);
     break;
    }
   }

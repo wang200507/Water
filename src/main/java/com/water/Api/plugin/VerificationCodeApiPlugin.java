@@ -23,7 +23,6 @@ import com.water.Api.entity.ApiBean;
 public class VerificationCodeApiPlugin {
 
  private static Logger log = Logger.getLogger(VerificationCodeApiPlugin.class);
- private HttpEntity entity;
  private String mess = "";
 
  /**
@@ -37,9 +36,10 @@ public class VerificationCodeApiPlugin {
   // 创建默认的httpClient实例
   CloseableHttpClient httpClient = new MultiplatformPlugin()
    .start();
+  HttpGet get = new HttpGet(apiBean.getGetUrl());
+  CloseableHttpResponse httpResponse = null;
   try {
    // 用get方法发送http请求
-   HttpGet get = new HttpGet(apiBean.getGetUrl());
    get.setHeader("Accept", "Accept text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
    get.setHeader("Accept-Charset", "GB2312,utf-8;q=0.7,*;q=0.7");
    get.setHeader("Date", new Date().toString());
@@ -59,22 +59,24 @@ public class VerificationCodeApiPlugin {
     get.setConfig(apiBean.getRequestConfig());
    }
    log.info("执行get请求:...." + get.getURI());
-   CloseableHttpResponse httpResponse = null;
+   
    // 发送get请求
    httpResponse = httpClient.execute(get);
     // response实体
-    entity = httpResponse.getEntity();
+   HttpEntity  entity = httpResponse.getEntity();
+   String mesg= EntityUtils.toString(entity);
     if (null != entity) {
      log.info(("响应状态码:" + httpResponse.getStatusLine()));
      log.info("-------------------------------------------------");
-     log.info("响应内容:" + Tools.ReturnMessage(EntityUtils.toString(entity)));
+     log.info("响应内容:" + Tools.ReturnMessage(mesg));
      log.info("-------------------------------------------------");
-     mess = Tools.ReturnMessage(EntityUtils.toString(entity));
+     mess = Tools.ReturnMessage(mesg);
     }
   } catch (Exception e) {
    e.printStackTrace();
   } finally {
    try {
+	httpResponse.close();
     closeHttpClient(httpClient);
    } catch (IOException e) {
     e.printStackTrace();
@@ -119,17 +121,17 @@ public class VerificationCodeApiPlugin {
    // 执行请求
    CloseableHttpResponse httpResponse = httpClient.execute(post);
    try {
-    entity = httpResponse.getEntity();
+	HttpEntity  entity = httpResponse.getEntity();
+	String mesg= EntityUtils.toString(entity);
     if (null != entity) {
      log.info("-------------------------------------------------------");
-     log.info(Tools.ReturnMessage(EntityUtils.toString(uefEntity)));
+     log.info(Tools.ReturnMessage(mesg));
      log.info("-------------------------------------------------------");
-     mess = Tools.ReturnMessage(EntityUtils.toString(entity));
+     mess = Tools.ReturnMessage(mesg);
     }
    } finally {
     httpResponse.close();
    }
-
   } catch (UnsupportedEncodingException e) {
    e.printStackTrace();
   } catch (IOException e) {
